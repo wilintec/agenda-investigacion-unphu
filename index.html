@@ -36,193 +36,744 @@
     >
 
 
+    
     <style>
+        :root {
+            --green: #006b4f;
+            --green-dark: #004c3a;
+            --green-deeper: #073e31;
+            --green-soft: #eaf4f0;
+            --gold: #d8aa31;
+            --gold-soft: #fff8e5;
+            --ink: #18302a;
+            --muted: #64736f;
+            --line: #dce5e1;
+            --paper: #ffffff;
+            --bg: #f4f7f6;
+            --shadow: 0 12px 35px rgba(0, 55, 42, 0.10);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
 
         body {
-
-            font-family: Arial, sans-serif;
-
             margin: 0;
-
-            padding: 30px;
-
-            background: #f5f5f5;
-
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--ink);
+            line-height: 1.55;
         }
 
-
-        h1 {
-
-            text-align: center;
-
+        a {
+            color: inherit;
         }
 
+        .topline {
+            height: 5px;
+            background: linear-gradient(
+                90deg,
+                var(--gold) 0 18%,
+                var(--green) 18%
+            );
+        }
+
+        /* =========================
+           ENCABEZADO
+        ========================= */
+
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            max-width: 1220px;
+            margin: auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .seal {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--green);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 700;
+            border: 3px solid var(--gold);
+            box-shadow: inset 0 0 0 2px #fff;
+        }
+
+        .brand strong {
+            display: block;
+            font-size: 1.18rem;
+            letter-spacing: 0.02em;
+            color: var(--green-dark);
+        }
+
+        .brand span {
+            display: block;
+            font-size: 0.72rem;
+            color: var(--muted);
+            letter-spacing: 0.03em;
+        }
+
+        .navlinks {
+            margin-left: auto;
+            display: flex;
+            gap: 22px;
+            font-size: 0.9rem;
+        }
+
+        .navlinks a {
+            text-decoration: none;
+            font-weight: 650;
+        }
+
+        .navlinks a:hover {
+            color: var(--green);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(0, 76, 58, 0.98),
+                    rgba(0, 107, 79, 0.90)
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    #d8aa31 0 10%,
+                    transparent 11%
+                );
+            color: #fff;
+        }
+
+        .hero-inner {
+            max-width: 1220px;
+            margin: auto;
+            padding: 68px 24px 62px;
+            display: grid;
+            grid-template-columns: 1.25fr 0.75fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #f1d57f;
+        }
+
+        .hero h1 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: clamp(2.35rem, 5vw, 4.35rem);
+            line-height: 1.03;
+            margin: 12px 0 18px;
+            max-width: 850px;
+        }
+
+        .hero p {
+            font-size: 1.08rem;
+            max-width: 730px;
+            color: #e4f0ec;
+            margin-bottom: 0;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 28px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 4px;
+            padding: 13px 20px;
+            font-weight: 750;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-gold {
+            background: var(--gold);
+            color: #102b23;
+        }
+
+        .btn-outline {
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            color: #fff;
+            background: transparent;
+        }
+
+        .hero-panel {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 26px;
+            border-radius: 8px;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero-panel h3 {
+            margin: 0 0 16px;
+            font-family: Georgia, "Times New Roman", serif;
+        }
+
+        .hero-stat {
+            border-top: 1px solid rgba(255, 255, 255, 0.20);
+            padding: 13px 0;
+        }
+
+        .hero-stat strong {
+            display: block;
+            color: #f1d57f;
+            margin-bottom: 2px;
+        }
+
+        .hero-stat span {
+            font-size: 0.9rem;
+            color: #e4f0ec;
+        }
+
+        /* =========================
+           AVISO Y CONTENIDO
+        ========================= */
+
+        .notice {
+            max-width: 1220px;
+            margin: 22px auto 0;
+            padding: 0 24px;
+        }
+
+        .notice div {
+            background: var(--gold-soft);
+            border-left: 4px solid var(--gold);
+            padding: 13px 16px;
+            font-size: 0.88rem;
+            color: #65531c;
+        }
+
+        .main {
+            max-width: 1220px;
+            margin: auto;
+            padding: 34px 24px 72px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 2rem;
+            margin: 0;
+            color: var(--green-dark);
+        }
+
+        .section-title p {
+            margin: 4px 0 0;
+            color: var(--muted);
+        }
+
+        .calendar-shell {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-top: 4px solid var(--green);
+            border-radius: 8px;
+            box-shadow: 0 8px 25px rgba(0, 55, 42, 0.07);
+            padding: 22px;
+        }
 
         #calendar {
-
-            max-width: 1200px;
-
-            margin: 30px auto;
-
-            background: white;
-
-            padding: 20px;
-
+            width: 100%;
+            margin: 0;
+            background: #fff;
         }
 
+        /* =========================
+           FULLCALENDAR
+        ========================= */
 
+        .fc {
+            font-family: Inter, "Segoe UI", Arial, sans-serif;
+            color: var(--ink);
+        }
+
+        .fc .fc-toolbar {
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .fc .fc-toolbar-title {
+            font-family: Georgia, "Times New Roman", serif;
+            color: var(--green-dark);
+            font-size: 1.75rem;
+        }
+
+        .fc .fc-button-primary {
+            background: var(--green-dark) !important;
+            border-color: var(--green-dark) !important;
+            color: #fff !important;
+            box-shadow: none !important;
+            font-weight: 700;
+            border-radius: 4px !important;
+        }
+
+        .fc .fc-button-primary:hover,
+        .fc .fc-button-primary:focus {
+            background: var(--green) !important;
+            border-color: var(--green) !important;
+        }
+
+        .fc .fc-button-primary:disabled {
+            background: #839b94 !important;
+            border-color: #839b94 !important;
+        }
+
+        .fc .fc-button-active {
+            background: var(--gold) !important;
+            border-color: var(--gold) !important;
+            color: #173128 !important;
+        }
+
+        .fc .fc-col-header-cell {
+            background: var(--green-soft);
+        }
+
+        .fc .fc-col-header-cell-cushion {
+            color: var(--green-dark);
+            text-decoration: none;
+            font-weight: 800;
+            padding: 9px 4px;
+        }
+
+        .fc .fc-daygrid-day-number {
+            color: var(--ink);
+            text-decoration: none;
+            font-weight: 650;
+            padding: 7px;
+        }
+
+        .fc .fc-day-today {
+            background: #fff8e5 !important;
+        }
+
+        .fc-theme-standard td,
+        .fc-theme-standard th,
+        .fc-theme-standard .fc-scrollgrid {
+            border-color: var(--line);
+        }
+
+        .fc .fc-daygrid-event {
+            background: var(--green);
+            border: 1px solid var(--green);
+            color: #fff;
+            border-radius: 4px;
+            padding: 3px 6px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .fc .fc-daygrid-event:hover {
+            background: var(--green-dark);
+            border-color: var(--green-dark);
+        }
+
+        .fc .fc-event-time,
+        .fc .fc-event-title {
+            color: inherit;
+        }
+
+        .fc .fc-list-event:hover td {
+            background: var(--green-soft);
+        }
+
+        .fc .fc-list-day-cushion {
+            background: var(--green-soft);
+            color: var(--green-dark);
+        }
+
+        .fc .fc-list-event-dot {
+            border-color: var(--gold);
+        }
 
         /* =========================
            MODAL
         ========================= */
 
-
         .modal {
-
             display: none;
-
             position: fixed;
-
             z-index: 9999;
-
             left: 0;
-
             top: 0;
-
             width: 100%;
-
             height: 100%;
-
-            background: rgba(0, 0, 0, 0.55);
-
+            background: rgba(3, 27, 21, 0.72);
             align-items: center;
-
             justify-content: center;
-
             padding: 20px;
-
             box-sizing: border-box;
-
         }
-
 
         .modal-contenido {
-
-            background: white;
-
+            background: #fff;
             width: 100%;
-
-            max-width: 600px;
-
-            padding: 35px;
-
-            border-radius: 12px;
-
+            max-width: 640px;
+            padding: 34px;
+            border-radius: 8px;
+            border-top: 6px solid var(--green);
             position: relative;
-
             box-sizing: border-box;
-
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.30);
         }
-
 
         .modal-cerrar {
-
             position: absolute;
-
-            right: 18px;
-
-            top: 12px;
-
+            right: 16px;
+            top: 10px;
             border: 0;
-
             background: transparent;
-
+            color: var(--green-dark);
             font-size: 32px;
-
             cursor: pointer;
-
         }
-
 
         .modal-tipo {
-
             display: inline-block;
-
-            background: #eeeeee;
-
-            padding: 6px 12px;
-
-            border-radius: 20px;
-
-            font-size: 14px;
-
+            background: var(--green-soft);
+            color: var(--green-dark);
+            padding: 6px 11px;
+            border-radius: 30px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
             margin-bottom: 10px;
-
         }
-
 
         .modal-contenido h2 {
-
-            margin-top: 10px;
-
+            margin: 8px 38px 18px 0;
+            color: var(--green-dark);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.75rem;
+            line-height: 1.15;
         }
 
+        .modal-datos {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 12px 0;
+        }
 
         .modal-datos p {
-
             margin: 8px 0;
-
         }
-
 
         .modal-descripcion {
-
-            margin-top: 25px;
-
-            line-height: 1.6;
-
+            margin-top: 22px;
+            line-height: 1.65;
+            color: #52645f;
         }
-
 
         .modal-boton {
-
             display: inline-block;
-
-            margin-top: 20px;
-
-            padding: 12px 22px;
-
-            background: #1f2937;
-
-            color: white;
-
+            margin-top: 18px;
+            padding: 12px 20px;
+            background: var(--green);
+            color: #fff;
             text-decoration: none;
-
-            border-radius: 6px;
-
+            border-radius: 4px;
+            font-weight: 750;
         }
-
 
         .modal-boton:hover {
-
-            opacity: 0.85;
-
+            background: var(--green-dark);
         }
 
+        /* =========================
+           PIE
+        ========================= */
 
+        footer {
+            background: var(--green-deeper);
+            color: #dcebe6;
+        }
+
+        .footer-inner {
+            max-width: 1220px;
+            margin: auto;
+            padding: 36px 24px;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 35px;
+        }
+
+        .footer-inner h4 {
+            color: #f1d57f;
+            margin-top: 0;
+        }
+
+        .footer-inner p,
+        .footer-inner a {
+            font-size: 0.86rem;
+            color: #c9ddd6;
+        }
+
+        .footer-inner a:hover {
+            color: #fff;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.14);
+            text-align: center;
+            padding: 16px 24px;
+            font-size: 0.78rem;
+            color: #a9c5bc;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 950px) {
+            .hero-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-panel {
+                display: none;
+            }
+
+            .navlinks {
+                display: none;
+            }
+        }
+
+        @media (max-width: 680px) {
+            .brand span {
+                display: none;
+            }
+
+            .hero-inner {
+                padding-top: 48px;
+                padding-bottom: 48px;
+            }
+
+            .hero h1 {
+                font-size: 2.45rem;
+            }
+
+            .section-title {
+                display: block;
+            }
+
+            .calendar-shell {
+                padding: 12px;
+            }
+
+            .fc .fc-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .fc .fc-toolbar-chunk {
+                display: flex;
+                justify-content: center;
+            }
+
+            .fc .fc-toolbar-title {
+                text-align: center;
+                font-size: 1.45rem;
+            }
+
+            .footer-inner {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-contenido {
+                padding: 26px 22px;
+            }
+        }
     </style>
+
 
 
 </head>
 
 
+
 <body>
 
+    <div class="topline"></div>
 
-    <h1>Agenda de Investigación UNPHU</h1>
+    <header>
+        <nav class="nav">
+
+            <a class="brand" href="#">
+                <div class="seal">U</div>
+
+                <div>
+                    <strong>Agenda de Investigación</strong>
+                    <span>Universidad Nacional Pedro Henríquez Ureña</span>
+                </div>
+            </a>
+
+            <div class="navlinks">
+                <a href="#agenda">Agenda</a>
+
+                <a
+                    href="https://unphu.edu.do/investigacion/"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    Investigación UNPHU
+                </a>
+            </div>
+
+        </nav>
+    </header>
 
 
-    <div id="calendar"></div>
+    <section class="hero">
+
+        <div class="hero-inner">
+
+            <div>
+
+                <div class="eyebrow">
+                    Portal institucional · Investigación
+                </div>
+
+                <h1>
+                    Agenda de actividades para investigar,
+                    conectar y transformar
+                </h1>
+
+                <p>
+                    Consulta charlas, webinars, talleres, conferencias
+                    y otras actividades de interés para la comunidad
+                    investigadora.
+                </p>
+
+                <div class="hero-actions">
+
+                    <a
+                        href="#agenda"
+                        class="btn btn-gold"
+                    >
+                        Ver agenda ↓
+                    </a>
+
+                    <a
+                        href="https://unphu.edu.do/investigacion/"
+                        target="_blank"
+                        rel="noopener"
+                        class="btn btn-outline"
+                    >
+                        Investigación UNPHU
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <aside class="hero-panel">
+
+                <h3>Agenda científica y académica</h3>
+
+                <div class="hero-stat">
+                    <strong>Charlas y webinars</strong>
+                    <span>Actividades de actualización y divulgación.</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>Talleres y conferencias</strong>
+                    <span>Espacios de formación y colaboración.</span>
+                </div>
+
+                <div class="hero-stat">
+                    <strong>Actualización continua</strong>
+                    <span>Eventos publicados desde Google Calendar.</span>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </section>
+
+
+    <div class="notice">
+
+        <div>
+            <strong>Agenda informativa:</strong>
+            los detalles, enlaces de registro y posibles cambios
+            de horario deben verificarse en la ficha de cada evento.
+        </div>
+
+    </div>
+
+
+    <main class="main" id="agenda">
+
+        <div class="section-title">
+
+            <div>
+                <h2>Calendario de investigación</h2>
+
+                <p>
+                    Navega por mes o consulta los eventos en formato agenda.
+                </p>
+            </div>
+
+        </div>
+
+
+        <section class="calendar-shell">
+
+            <div id="calendar"></div>
+
+        </section>
+
+    </main>
+
 
 
 
@@ -318,6 +869,53 @@
 
     </div>
 
+
+
+    <footer>
+
+        <div class="footer-inner">
+
+            <div>
+                <h4>UNPHU · Investigación</h4>
+
+                <p>
+                    Agenda institucional para divulgar actividades,
+                    encuentros y oportunidades de formación de interés
+                    para la comunidad investigadora.
+                </p>
+            </div>
+
+            <div>
+                <h4>Enlaces</h4>
+
+                <p>
+                    <a
+                        href="https://unphu.edu.do/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Sitio web UNPHU
+                    </a>
+                </p>
+
+                <p>
+                    <a
+                        href="https://unphu.edu.do/investigacion/"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Investigación UNPHU
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            Agenda de Investigación · Universidad Nacional Pedro Henríquez Ureña
+        </div>
+
+    </footer>
 
 
     <script>
@@ -595,6 +1193,9 @@
 
                             timeZone:
                                 "America/Santo_Domingo",
+
+                            eventDisplay:
+                                "block",
 
 
                             headerToolbar: {
