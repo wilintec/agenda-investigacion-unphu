@@ -345,25 +345,44 @@
                 ========================== */
 
 
-                function convertirDescripcionATexto(
-                    descripcion
-                ) {
+      function convertirDescripcionATexto(descripcion) {
 
-                    var elemento =
-                        document.createElement(
-                            "div"
-                        );
+    var html = descripcion || "";
 
-                    elemento.innerHTML =
-                        descripcion || "";
+    // Convertir saltos HTML en saltos de línea reales
+    html = html.replace(
+        /<br\s*\/?>/gi,
+        "\n"
+    );
 
-                    return (
-                        elemento.textContent ||
-                        elemento.innerText ||
-                        ""
-                    );
+    html = html.replace(
+        /<\/p>/gi,
+        "\n"
+    );
 
-                }
+    html = html.replace(
+        /<\/div>/gi,
+        "\n"
+    );
+
+    var elemento =
+        document.createElement("div");
+
+    elemento.innerHTML = html;
+
+    var texto =
+        elemento.textContent ||
+        elemento.innerText ||
+        "";
+
+    // Eliminar espacios especiales de HTML
+    texto = texto.replace(
+        /\u00a0/g,
+        " "
+    );
+
+    return texto;
+}
 
 
 
