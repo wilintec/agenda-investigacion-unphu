@@ -2,14 +2,23 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Agenda de Investigación UNPHU</title>
 
+
+    <!-- FULLCALENDAR -->
+
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/all/global.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/themes/classic/global.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/locales/es/global.js"></script>
+
 
     <link
         href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/skeleton.css"
@@ -26,131 +35,1033 @@
         rel="stylesheet"
     >
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-
-            var calendarEl = document.getElementById("calendar");
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-
-                initialView: "dayGridMonth",
-
-                locale: "es",
-
-                timeZone: "America/Santo_Domingo",
-
-                headerToolbar: {
-                    left: "prev,next today",
-                    center: "title",
-                    right: "dayGridMonth,listMonth"
-                },
-
-  events: function(fetchInfo, successCallback, failureCallback) {
-
-    var calendarId =
-        "1d1cba22ace92392d8cbe42963fbf8d752dba938897f53d4511d6d74a1d18c21@group.calendar.google.com";
-
-    var apiKey = "AIzaSyDFDhyQC38_rfjpqTvXUsVTNCSBqtV0ddo";
-
-    var url =
-        "https://www.googleapis.com/calendar/v3/calendars/" +
-        encodeURIComponent(calendarId) +
-        "/events" +
-        "?key=" + apiKey +
-        "&timeMin=" + encodeURIComponent(fetchInfo.startStr) +
-        "&timeMax=" + encodeURIComponent(fetchInfo.endStr) +
-        "&singleEvents=true" +
-        "&orderBy=startTime";
-
-    fetch(url)
-        .then(function(response) {
-
-            if (!response.ok) {
-                throw new Error(
-                    "Google Calendar API respondió: " +
-                    response.status +
-                    " " +
-                    response.statusText
-                );
-            }
-
-            return response.json();
-
-        })
-        .then(function(data) {
-
-            var eventos = [];
-
-            data.items.forEach(function(item) {
-
-                var evento = {
-                    id: item.id,
-                    title: item.summary,
-                    start: item.start.dateTime || item.start.date,
-                    end: item.end.dateTime || item.end.date,
-
-                    extendedProps: {
-                        descripcion: item.description || "",
-                        ubicacion: item.location || "",
-                        googleCalendarUrl: item.htmlLink || ""
-                    }
-                };
-
-                eventos.push(evento);
-
-            });
-
-            successCallback(eventos);
-
-        })
-        .catch(function(error) {
-
-            console.error(
-                "ERROR GOOGLE CALENDAR:",
-                error
-            );
-
-            failureCallback(error);
-
-        });
-}
-
-            });
-
-            calendar.render();
-
-        });
-    </script>
 
     <style>
 
         body {
+
             font-family: Arial, sans-serif;
+
             margin: 0;
+
             padding: 30px;
+
             background: #f5f5f5;
+
         }
+
 
         h1 {
+
             text-align: center;
+
         }
 
+
         #calendar {
+
             max-width: 1200px;
+
             margin: 30px auto;
+
             background: white;
+
             padding: 20px;
+
         }
+
+
+
+        /* =========================
+           MODAL
+        ========================= */
+
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            z-index: 9999;
+
+            left: 0;
+
+            top: 0;
+
+            width: 100%;
+
+            height: 100%;
+
+            background: rgba(0, 0, 0, 0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .modal-contenido {
+
+            background: white;
+
+            width: 100%;
+
+            max-width: 600px;
+
+            padding: 35px;
+
+            border-radius: 12px;
+
+            position: relative;
+
+            box-sizing: border-box;
+
+        }
+
+
+        .modal-cerrar {
+
+            position: absolute;
+
+            right: 18px;
+
+            top: 12px;
+
+            border: 0;
+
+            background: transparent;
+
+            font-size: 32px;
+
+            cursor: pointer;
+
+        }
+
+
+        .modal-tipo {
+
+            display: inline-block;
+
+            background: #eeeeee;
+
+            padding: 6px 12px;
+
+            border-radius: 20px;
+
+            font-size: 14px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .modal-contenido h2 {
+
+            margin-top: 10px;
+
+        }
+
+
+        .modal-datos p {
+
+            margin: 8px 0;
+
+        }
+
+
+        .modal-descripcion {
+
+            margin-top: 25px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .modal-boton {
+
+            display: inline-block;
+
+            margin-top: 20px;
+
+            padding: 12px 22px;
+
+            background: #1f2937;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 6px;
+
+        }
+
+
+        .modal-boton:hover {
+
+            opacity: 0.85;
+
+        }
+
 
     </style>
 
+
 </head>
+
 
 <body>
 
+
     <h1>Agenda de Investigación UNPHU</h1>
 
+
     <div id="calendar"></div>
+
+
+
+    <!-- =========================
+         MODAL DEL EVENTO
+    ========================== -->
+
+
+    <div id="modal-evento" class="modal">
+
+
+        <div class="modal-contenido">
+
+
+            <button
+                id="modal-cerrar"
+                class="modal-cerrar"
+            >
+                ×
+            </button>
+
+
+            <div
+                id="modal-tipo"
+                class="modal-tipo"
+            >
+            </div>
+
+
+            <h2 id="modal-titulo"></h2>
+
+
+            <div class="modal-datos">
+
+
+                <p>
+                    <strong>📅 Fecha:</strong>
+
+                    <span id="modal-fecha"></span>
+                </p>
+
+
+                <p>
+                    <strong>🕗 Hora:</strong>
+
+                    <span id="modal-hora"></span>
+                </p>
+
+
+                <p>
+                    <strong>🏛 Institución:</strong>
+
+                    <span id="modal-institucion"></span>
+                </p>
+
+
+                <p>
+                    <strong>🌐 Modalidad:</strong>
+
+                    <span id="modal-modalidad"></span>
+                </p>
+
+
+                <p>
+                    <strong>👥 Dirigido a:</strong>
+
+                    <span id="modal-publico"></span>
+                </p>
+
+
+            </div>
+
+
+            <p
+                id="modal-descripcion"
+                class="modal-descripcion"
+            >
+            </p>
+
+
+            <a
+                id="modal-inscripcion"
+                class="modal-boton"
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Inscribirme
+            </a>
+
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+
+                /* =========================
+                   ELEMENTO CALENDARIO
+                ========================== */
+
+
+                var calendarEl =
+                    document.getElementById(
+                        "calendar"
+                    );
+
+
+
+                /* =========================
+                   FUNCIONES
+                ========================== */
+
+
+                function convertirDescripcionATexto(
+                    descripcion
+                ) {
+
+                    var elemento =
+                        document.createElement(
+                            "div"
+                        );
+
+                    elemento.innerHTML =
+                        descripcion || "";
+
+                    return (
+                        elemento.textContent ||
+                        elemento.innerText ||
+                        ""
+                    );
+
+                }
+
+
+
+                function extraerCampo(
+                    descripcion,
+                    nombreCampo
+                ) {
+
+                    var texto =
+                        convertirDescripcionATexto(
+                            descripcion
+                        );
+
+                    var lineas =
+                        texto.split("\n");
+
+
+                    for (
+                        var i = 0;
+                        i < lineas.length;
+                        i++
+                    ) {
+
+                        var linea =
+                            lineas[i].trim();
+
+                        var prefijo =
+                            nombreCampo + ":";
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith(
+                                    prefijo.toUpperCase()
+                                )
+                        ) {
+
+                            return linea
+                                .substring(
+                                    prefijo.length
+                                )
+                                .trim();
+
+                        }
+
+                    }
+
+
+                    return "";
+
+                }
+
+
+
+                function extraerDescripcionGeneral(
+                    descripcion
+                ) {
+
+                    var texto =
+                        convertirDescripcionATexto(
+                            descripcion
+                        );
+
+                    var lineas =
+                        texto.split("\n");
+
+                    var descripcionGeneral = [];
+
+
+                    for (
+                        var i = 0;
+                        i < lineas.length;
+                        i++
+                    ) {
+
+                        var linea =
+                            lineas[i].trim();
+
+
+                        if (linea == "") {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("TIPO:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("INSTITUCION:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("MODALIDAD:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("PUBLICO:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("INSCRIPCION:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        if (
+                            linea
+                                .toUpperCase()
+                                .startsWith("IMAGEN:")
+                        ) {
+
+                            continue;
+
+                        }
+
+
+                        descripcionGeneral.push(
+                            linea
+                        );
+
+                    }
+
+
+                    return descripcionGeneral.join(
+                        " "
+                    );
+
+                }
+
+
+
+                function formatearHora(fecha) {
+
+                    if (!fecha) {
+
+                        return "";
+
+                    }
+
+
+                    return fecha.toLocaleTimeString(
+                        "es-DO",
+                        {
+                            hour: "numeric",
+                            minute: "2-digit",
+                            timeZone:
+                                "America/Santo_Domingo"
+                        }
+                    );
+
+                }
+
+
+
+                /* =========================
+                   FULLCALENDAR
+                ========================== */
+
+
+                var calendar =
+                    new FullCalendar.Calendar(
+                        calendarEl,
+                        {
+
+
+                            initialView:
+                                "dayGridMonth",
+
+
+                            locale:
+                                "es",
+
+
+                            timeZone:
+                                "America/Santo_Domingo",
+
+
+                            headerToolbar: {
+
+                                left:
+                                    "prev,next today",
+
+                                center:
+                                    "title",
+
+                                right:
+                                    "dayGridMonth,listMonth"
+
+                            },
+
+
+
+                            /* =========================
+                               GOOGLE CALENDAR
+                            ========================== */
+
+
+                            events: function (
+                                fetchInfo,
+                                successCallback,
+                                failureCallback
+                            ) {
+
+
+                                var calendarId =
+                                    "1d1cba22ace92392d8cbe42963fbf8d752dba938897f53d4511d6d74a1d18c21@group.calendar.google.com";
+
+
+                                var apiKey =
+                                    "AIzaSyDFDhyQC38_rfjpqTvXUsVTNCSBqtV0ddo";
+
+
+                                var url =
+                                    "https://www.googleapis.com/calendar/v3/calendars/" +
+                                    encodeURIComponent(
+                                        calendarId
+                                    ) +
+                                    "/events" +
+                                    "?key=" +
+                                    apiKey +
+                                    "&timeMin=" +
+                                    encodeURIComponent(
+                                        fetchInfo.startStr
+                                    ) +
+                                    "&timeMax=" +
+                                    encodeURIComponent(
+                                        fetchInfo.endStr
+                                    ) +
+                                    "&singleEvents=true" +
+                                    "&orderBy=startTime";
+
+
+                                fetch(url)
+
+                                    .then(
+                                        function (
+                                            response
+                                        ) {
+
+
+                                            if (
+                                                !response.ok
+                                            ) {
+
+                                                throw new Error(
+                                                    "Google Calendar API respondió: " +
+                                                    response.status +
+                                                    " " +
+                                                    response.statusText
+                                                );
+
+                                            }
+
+
+                                            return response.json();
+
+                                        }
+                                    )
+
+
+                                    .then(
+                                        function (
+                                            data
+                                        ) {
+
+
+                                            var eventos =
+                                                [];
+
+
+                                            data.items.forEach(
+                                                function (
+                                                    item
+                                                ) {
+
+
+                                                    var evento =
+                                                        {
+
+                                                            id:
+                                                                item.id,
+
+                                                            title:
+                                                                item.summary ||
+                                                                "Evento",
+
+                                                            start:
+                                                                item.start.dateTime ||
+                                                                item.start.date,
+
+                                                            end:
+                                                                item.end.dateTime ||
+                                                                item.end.date,
+
+
+                                                            extendedProps:
+                                                                {
+
+                                                                    descripcion:
+                                                                        item.description ||
+                                                                        "",
+
+                                                                    ubicacion:
+                                                                        item.location ||
+                                                                        "",
+
+                                                                    googleCalendarUrl:
+                                                                        item.htmlLink ||
+                                                                        ""
+
+                                                                }
+
+                                                        };
+
+
+                                                    eventos.push(
+                                                        evento
+                                                    );
+
+                                                }
+                                            );
+
+
+                                            successCallback(
+                                                eventos
+                                            );
+
+                                        }
+                                    )
+
+
+                                    .catch(
+                                        function (
+                                            error
+                                        ) {
+
+
+                                            console.error(
+                                                "ERROR GOOGLE CALENDAR:",
+                                                error
+                                            );
+
+
+                                            failureCallback(
+                                                error
+                                            );
+
+                                        }
+                                    );
+
+
+                            },
+
+
+
+                            /* =========================
+                               CLICK SOBRE EVENTO
+                            ========================== */
+
+
+                            eventClick: function (
+                                info
+                            ) {
+
+
+                                var evento =
+                                    info.event;
+
+
+                                var descripcion =
+                                    evento.extendedProps
+                                        .descripcion ||
+                                    "";
+
+
+                                var tipo =
+                                    extraerCampo(
+                                        descripcion,
+                                        "TIPO"
+                                    );
+
+
+                                var institucion =
+                                    extraerCampo(
+                                        descripcion,
+                                        "INSTITUCION"
+                                    );
+
+
+                                var modalidad =
+                                    extraerCampo(
+                                        descripcion,
+                                        "MODALIDAD"
+                                    );
+
+
+                                var publico =
+                                    extraerCampo(
+                                        descripcion,
+                                        "PUBLICO"
+                                    );
+
+
+                                var inscripcion =
+                                    extraerCampo(
+                                        descripcion,
+                                        "INSCRIPCION"
+                                    );
+
+
+                                var descripcionGeneral =
+                                    extraerDescripcionGeneral(
+                                        descripcion
+                                    );
+
+
+
+                                document.getElementById(
+                                    "modal-titulo"
+                                ).textContent =
+                                    evento.title;
+
+
+
+                                var fechaTexto =
+                                    evento.start
+                                        .toLocaleDateString(
+                                            "es-DO",
+                                            {
+
+                                                weekday:
+                                                    "long",
+
+                                                day:
+                                                    "numeric",
+
+                                                month:
+                                                    "long",
+
+                                                year:
+                                                    "numeric",
+
+                                                timeZone:
+                                                    "America/Santo_Domingo"
+
+                                            }
+                                        );
+
+
+                                document.getElementById(
+                                    "modal-fecha"
+                                ).textContent =
+                                    fechaTexto;
+
+
+
+                                var horaInicio =
+                                    formatearHora(
+                                        evento.start
+                                    );
+
+
+                                var horaFin =
+                                    formatearHora(
+                                        evento.end
+                                    );
+
+
+                                var horario =
+                                    horaInicio;
+
+
+                                if (
+                                    horaFin != ""
+                                ) {
+
+                                    horario =
+                                        horaInicio +
+                                        " – " +
+                                        horaFin;
+
+                                }
+
+
+
+                                document.getElementById(
+                                    "modal-hora"
+                                ).textContent =
+                                    horario;
+
+
+
+                                document.getElementById(
+                                    "modal-tipo"
+                                ).textContent =
+                                    tipo ||
+                                    "Evento";
+
+
+
+                                document.getElementById(
+                                    "modal-institucion"
+                                ).textContent =
+                                    institucion ||
+                                    "";
+
+
+
+                                document.getElementById(
+                                    "modal-modalidad"
+                                ).textContent =
+                                    modalidad ||
+                                    "";
+
+
+
+                                document.getElementById(
+                                    "modal-publico"
+                                ).textContent =
+                                    publico ||
+                                    "";
+
+
+
+                                document.getElementById(
+                                    "modal-descripcion"
+                                ).textContent =
+                                    descripcionGeneral;
+
+
+
+                                var botonInscripcion =
+                                    document.getElementById(
+                                        "modal-inscripcion"
+                                    );
+
+
+
+                                if (
+                                    inscripcion != ""
+                                ) {
+
+
+                                    var coincidenciaUrl =
+                                        inscripcion.match(
+                                            /https?:\/\/[^\s\])]+/
+                                        );
+
+
+                                    if (
+                                        coincidenciaUrl
+                                    ) {
+
+
+                                        botonInscripcion.href =
+                                            coincidenciaUrl[0];
+
+
+                                        botonInscripcion.style.display =
+                                            "inline-block";
+
+
+                                    } else {
+
+
+                                        botonInscripcion.style.display =
+                                            "none";
+
+                                    }
+
+
+                                } else {
+
+
+                                    botonInscripcion.style.display =
+                                        "none";
+
+                                }
+
+
+
+                                document.getElementById(
+                                    "modal-evento"
+                                ).style.display =
+                                    "flex";
+
+
+                            }
+
+
+                        }
+                    );
+
+
+
+                /* =========================
+                   CERRAR MODAL
+                ========================== */
+
+
+                document.getElementById(
+                    "modal-cerrar"
+                ).addEventListener(
+                    "click",
+                    function () {
+
+
+                        document.getElementById(
+                            "modal-evento"
+                        ).style.display =
+                            "none";
+
+
+                    }
+                );
+
+
+
+                document.getElementById(
+                    "modal-evento"
+                ).addEventListener(
+                    "click",
+                    function (
+                        event
+                    ) {
+
+
+                        if (
+                            event.target.id ==
+                            "modal-evento"
+                        ) {
+
+
+                            document.getElementById(
+                                "modal-evento"
+                            ).style.display =
+                                "none";
+
+
+                        }
+
+
+                    }
+                );
+
+
+
+                /* =========================
+                   MOSTRAR CALENDARIO
+                ========================== */
+
+
+                calendar.render();
+
+
+            }
+        );
+
+
+    </script>
+
 
 </body>
 
