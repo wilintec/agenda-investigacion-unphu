@@ -8,6 +8,8 @@
     <title>Agenda de Investigación UNPHU</title>
 
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/all/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@7.0.2/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/themes/classic/global.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/locales/es/global.js"></script>
 
     <link
@@ -47,9 +49,14 @@
                 googleCalendarApiKey: "AIzaSyDFDhyQC38_rfjpqTvXUsVTNCSBqtV0ddo",
 
                 events: {
-                    googleCalendarId:
-                        "1d1cba22ace92392d8cbe42963fbf8d752dba938897f53d4511d6d74a1d18c21@group.calendar.google.com"
-                }
+    googleCalendarId:
+        "1d1cba22ace92392d8cbe42963fbf8d752dba938897f53d4511d6d74a1d18c21@group.calendar.google.com",
+
+    failure: function(error) {
+        console.error("ERROR GOOGLE CALENDAR:", error);
+        alert("Error cargando eventos. Revisa la consola del navegador.");
+    }
+}
 
             });
 
