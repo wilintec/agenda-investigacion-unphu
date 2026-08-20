@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Agenda de Investigación UNPHU</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/all/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/locales/es/global.js"></script>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/skeleton.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/themes/classic/theme.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.0.2/themes/classic/palette.css"
+        rel="stylesheet"
+    >
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            var calendarEl = document.getElementById("calendar");
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+
+                initialView: "dayGridMonth",
+
+                locale: "es",
+
+                timeZone: "America/Santo_Domingo",
+
+                headerToolbar: {
+                    left: "prev,next today",
+                    center: "title",
+                    right: "dayGridMonth,listMonth"
+                },
+
+                googleCalendarApiKey: "AIzaSyDFDhyQC38_rfjpqTvXUsVTNCSBqtV0ddo",
+
+                events: {
+                    googleCalendarId:
+                        "1d1cba22ace92392d8cbe42963fbf8d752dba938897f53d4511d6d74a1d18c21@group.calendar.google.com"
+                }
+
+            });
+
+            calendar.render();
+
+        });
+    </script>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 30px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #calendar {
+            max-width: 1200px;
+            margin: 30px auto;
+            background: white;
+            padding: 20px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Agenda de Investigación UNPHU</h1>
+
+    <div id="calendar"></div>
+
+</body>
+
+</html>
